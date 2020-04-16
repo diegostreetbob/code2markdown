@@ -387,5 +387,5 @@ PS D:\SynologyDrive\SynologyDrive\GitHub\code2markdown> py -3 code2markdown.py t
 
 Nos genera el archivo **md** llamado `test.md
 
-Para su testeo se adjuntan todos los fichero empleados para estas pruebas por si deseas reproducirlos.
+Para su testeo se adjuntan todos los ficheros empleados para estas pruebas por si deseas reproducirlos.
 
