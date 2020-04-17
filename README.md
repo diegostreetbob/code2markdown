@@ -294,7 +294,7 @@ Colocamos `code2markdown.py` en el mismo directorio donde este el archivo con el
 
 Nos genera el archivo **md** llamado `test.md`
 
-# Uso para lenguaje C(Avanzado)
+# Uso para lenguaje C(modo avanzado)
 
 Para lenguaje C tenemos dos tipo de etiquetas:
 
@@ -576,7 +576,7 @@ Colocamos `code2markdown.py` en el mismo directorio donde este el archivo con el
 \code2markdown> py -3 code2markdown.py 2 test.h 
 ```
 
-**Argumento 1:  tiene que ser 2 cuando vayamos a usar este modo especial que solo sirve para lenguaje c y en el directorio ha de estar un .h y un .c**
+**Argumento 1:  tiene que ser 2 cuando vayamos a usar este modo especial que solo sirve para lenguaje c y en el directorio ha haber un .h y un .c**
 
 **Observar** que como argumento solo pasamos `test.h`
 
