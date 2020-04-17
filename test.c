@@ -1,8 +1,7 @@
 #include "Imagen.h"
-//>Variable global necesaria para el control de excepciones
-extern jmp_buf buf;//<
-//>Variable global necesaria para el control de excepciones 
-extern enum STATE state;//<
+//>Variables globalles necesarias para el control de excepciones
+extern jmp_buf buf;//<<
+extern enum STATE state;//<<
 /*
 //>***
 void imagenImprimir(Imagen *img)//<
@@ -44,7 +43,7 @@ Imagen nuevaImagen(int nfil,int ncol,jmp_buf buf)//<
 //>* **[out]** Imagen
 //>
 //>Ejemplo de uso para declarar e inicializar una imagen de 10x10
-Imagen img=nuevaImagen(10,10,jmp_buf buf)//<
+Imagen img=nuevaImagen(10,10,jmp_buf buf)//<<
 */
 Imagen nuevaImagen(int nfil,int ncol,jmp_buf buf)
 {
@@ -54,9 +53,9 @@ Imagen nuevaImagen(int nfil,int ncol,jmp_buf buf)
   img.fil=nfil;
   img.col=ncol;
   //>Asignamos memoria dinámicamente 
-  img.imagen=(unsigned char*) malloc(img.fil*img.col*sizeof(unsigned char));//<
+  img.imagen=(unsigned char*) malloc(img.fil*img.col*sizeof(unsigned char));//<<
   //>Si hay error enviamos excepción
-    THROWandLOG(!img.imagen,state=stNull)//<//salta si es un null y avisa de null
+    THROWandLOG(!img.imagen,state=stNull)//<<
   int *res=memset(img.imagen,0,img.fil*img.col);
     THROWandLOG(!res,state=stNull)//salta si es un null y avisa de null
   return img;

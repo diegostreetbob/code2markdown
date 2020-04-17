@@ -1,30 +1,28 @@
 [TOC]
-## Fuente: testpython
+## Fuente: testpython.py
 ### main() del programa
 #### Creación del socket
 Para la creación usamos estas tres líneas:
-```python
-serverSocket = socket(AF_INET, SOCK_STREAM)
-```
-```python
-serverSocket.bind((gethostname(), 8801))
-```
-```python
-serverSocket.listen(10)
-```
+`serverSocket = socket(AF_INET, SOCK_STREAM)`
+
+`serverSocket.bind((gethostname(), 8801))`
+
+`serverSocket.listen(10)`
+
 > Posteriormente quedamos a la espera de conexión por parte de un cliente.
 ```python
 connectionSocket, addr = serverSocket.accept()
 ```
+`mensaje = connectionSocket.recv(1024)`
+
 Si ocurre un error:
-```python
-connectionSocket.shutdown(SHUT_RDWR)
-```
-```python
-connectionSocket.close()
-```
+`connectionSocket.shutdown(SHUT_RDWR)`
+
+`connectionSocket.close()`
+
 Al acabar siempre cerramos la conexión
-```python
-serverSocket.close()
-```
+`serverSocket.close()`
+
 ***
+*Sello temporal:17-Apr-2020 (19:59:36.054203)*
+*Documentado con code2markdown, https://github.com/diegostreetbob/code2markdown*

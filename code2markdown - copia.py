@@ -10,7 +10,6 @@
 ################################################################################
 import re #importamos módulo regex
 import sys
-from datetime import datetime
 ################################################################################
 h1="#"
 h2="##"
@@ -33,15 +32,15 @@ indentado="2"
 Creamos el documento a markdown ha de ir esto(respetar los espacios)
 [TOC]
 
+## Casa.c
+
+###  Clases, tipos
 '''
-def cCrearDoc(modulonombre,comando=1, extension=".c"):
+def cCrearDoc(modulonombre):
     #abre el fichero, si no existe lo borra y si existe lo sobre escribe
     # importante encoding="cp1252" para escribir bien los acentos
     f=open(modulonombre+".md",'w',encoding="cp1252")
-    if(comando==1):
-        salida=toc+saltolin+h2+espacio+"Fuente: "+ modulonombre+extension+saltolin
-    else:
-        salida=toc+saltolin+h2+espacio+"Fuente: "+modulonombre+saltolin+h3+espacio+"Entidades"
+    salida=toc+saltolin+h2+espacio+"Fuente: "+modulonombre+saltolin+h3+espacio+"Entidades"
     f.write(salida)
     f.close
 ################################################################################
@@ -61,9 +60,28 @@ def crearDoc(modulonombre):
     f.write(salida)
     f.close
 ################################################################################
-#Recorremos el documento buscando //@ent,//@atr,//@oper nombre, por ejemplo
-#cuando encontremos, este método solo es para tratamiento C modo especial,comando
-#2
+#Recorremos el documento buscando @ent nombre, por ejemplo cuando encontremos
+#esto:
+#cuando encontremos este código:
+'''
+//@ent Imagen descripción de la clase
+typedef struct imagen{
+int fil;//@atr filas de la imagen
+int col;//@atr columnas de la imagen
+unsigned char col_masc;//@atr columnas de la mascara, si aplica
+unsigned char *imagen;//@atr puntero a imagen
+void (*print)();//@met método para imprimir
+void (*borrar)();//@met método para liberar memoria
+}Imagen;
+'''
+#1º Buscamos @ent y en markdown escribimos:
+'''
+#### nombre\n
+```c
+descripción de la clase
+```
+
+'''
 def headerBuscarEntidades(ficheroentrada,modulonombre):
     flag=0 # no se ha encontrado entidad aún
     flag1=0 #flag para controlar que no se escriba mas de una vez  atributo
@@ -86,7 +104,7 @@ def headerBuscarEntidades(ficheroentrada,modulonombre):
         #linea que sera el encabezado del typedef struct
         if(flag):
             linea_=linea[:-2]# de typedef struct imagen{\n a typedef struct imagen
-            anadirLinea(linea_+saltolin+ccodend+saltolin,modulonombre)
+            anadirlinea(linea_+saltolin+ccodend+saltolin,modulonombre)
             flag=0
         #buscamos la //@.... en linea
         locclase=re.search("//@ent",linea)
@@ -110,10 +128,10 @@ def headerBuscarEntidades(ficheroentrada,modulonombre):
             if(locclase):
                 # escribimos el nombre de la clase
                 salida=saltolin+h4+espacio+clasenombre
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 # escribimos la descripción de la clase como código
                 salida=saltolin+ccodestar+saltolin+"//"+descripcion
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 flag=1
                 flag1=0
             # si hemos encontrado un atributo
@@ -121,25 +139,25 @@ def headerBuscarEntidades(ficheroentrada,modulonombre):
                 # escribimos encabezado de atributos
                 if(flag1==0):
                     salida=saltolin+h5+espacio+"Atributos"
-                    anadirLinea(salida,modulonombre)
+                    anadirlinea(salida,modulonombre)
                     flag1=1
                 # escribimos la descripción del atributo como código
                 salida=saltolin+ccodestar+saltolin+"//"+descripcion
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 flag=1
             # si hemos encontrado una operacion
             if(locoper):
                 # escribimos encabezado de atributos
                 if(flag2==0):
                     salida=saltolin+h5+espacio+"Operaciones"
-                    anadirLinea(salida,modulonombre)
+                    anadirlinea(salida,modulonombre)
                     #enlace a definiciones de operaciones
                     salida=saltolin+"[Ir a desglose de operaciones]"+"(#Desglose de operaciones)"
-                    anadirLinea(salida,modulonombre)
+                    anadirlinea(salida,modulonombre)
                     flag2=1
                 # escribimos la descripción del atributo como código
                 salida=saltolin+ccodestar+saltolin+"//"+descripcion
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 flag=1
         #fin si se encuentra
     buscarMacros(ficheroentrada,modulonombre)
@@ -165,7 +183,7 @@ def buscarMacros(ficheroentrada,modulonombre):
         #linea que sera el encabezado del typedef struct
         if(flag):
             linea_=linea[:-2]# de typedef struct imagen{\n a typedef struct imagen
-            anadirLinea(linea_+saltolin+ccodend+saltolin,modulonombre)
+            anadirlinea(linea_+saltolin+ccodend+saltolin,modulonombre)
             flag=0
         #buscamos la //@..... en linea
         locmac=re.search("//@mac",linea)
@@ -176,11 +194,11 @@ def buscarMacros(ficheroentrada,modulonombre):
             # escribimos encabezado de macro solo una vez
             if(flag1==0):
                 salida=saltolin+h5+espacio+"Macros"
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 flag1=1
             # escribimos la descripción del macro como código
             salida=saltolin+ccodestar+saltolin+"//"+descripcion
-            anadirLinea(salida,modulonombre)
+            anadirlinea(salida,modulonombre)
             flag=1
         #fin si se encuentra
 ################################################################################
@@ -204,7 +222,7 @@ def buscarVarGlobales(ficheroentrada,modulonombre):
         #linea que sera el encabezado del typedef struct
         if(flag):
             linea_=linea[:-2]# de typedef struct imagen{\n a typedef struct imagen
-            anadirLinea(linea_+saltolin+ccodend+saltolin,modulonombre)
+            anadirlinea(linea_+saltolin+ccodend+saltolin,modulonombre)
             flag=0
         #buscamos
         locmac=re.search("//@glob",linea)
@@ -215,18 +233,18 @@ def buscarVarGlobales(ficheroentrada,modulonombre):
             # escribimos encabezado de macro solo una vez
             if(flag1==0):
                 salida=saltolin+h5+espacio+"Variables globales"
-                anadirLinea(salida,modulonombre)
+                anadirlinea(salida,modulonombre)
                 flag1=1
             # escribimos la descripción del macro como código
             salida=saltolin+ccodestar+saltolin+"//"+descripcion
-            anadirLinea(salida,modulonombre)
+            anadirlinea(salida,modulonombre)
             flag=1
         #fin si se encuentra
 ################################################################################
 def cBuscarOper(ficheroentradaoper,modulonombre):
     #Encabezado
     salida=saltolin+h5+espacio+"Desglose de operaciones"+saltolin
-    anadirLinea(salida,modulonombre)
+    anadirlinea(salida,modulonombre)
     #abrimos el fichero .c en modo lectura y guardamos todas las lineas en
     #una lista, ojo que mete siempre un \n al final
     try:
@@ -243,27 +261,19 @@ def cBuscarOper(ficheroentradaoper,modulonombre):
         loccom=re.search("//>",linea)
         #buscamos linea a insertar como comentario de código
         loccod=re.search("//<",linea)
-        #buscamos linea a insertar como comentario de código en linea
-        loccodlin=re.search("//<<",linea)
         #si se encuentra
         if(loccom):
             tag = re.split("//>", linea)
             descripcion=tag[1]
             # escribimos el comentario
             salida=descripcion
-            anadirLinea(salida,modulonombre)
-        if(loccod and not loccodlin):
+            anadirlinea(salida,modulonombre)
+        if(loccod):
             tag = re.split("//<", linea)
             descripcion=tag[0]
             # escribimos el comentario
             salida=descripcion.strip()
             anadirLineaCodigo(salida,modulonombre)
-        if(loccodlin):
-            tag = re.split("//<<", linea)
-            descripcion=tag[0]
-            # escribimos el comentario quitando espacios en blanco
-            salida="`"+descripcion.strip()+"`"+saltolin+saltolin
-            anadirLinea(salida,modulonombre,"py")
 ################################################################################
 def pyBuscarOper(ficheroentradaoper,modulonombre):
     #abrimos el fichero .py en modo lectura y guardamos todas las lineas en
@@ -282,29 +292,21 @@ def pyBuscarOper(ficheroentradaoper,modulonombre):
         loccom=re.search("#>",linea)
         #buscamos linea a insertar como comentario de código
         loccod=re.search("#<",linea)
-        #buscamos linea a insertar como comentario de código en linea
-        loccodlin=re.search("#<<",linea)
         #si se encuentra
         if(loccom):
             tag = re.split("#>", linea)
             descripcion=tag[1]
             # escribimos el comentario
             salida=descripcion
-            anadirLinea(salida,modulonombre)
-        if(loccod and not loccodlin):
+            anadirlinea(salida,modulonombre)
+        if(loccod):
             tag = re.split("#<", linea)
             descripcion=tag[0]
             # escribimos el comentario
             salida=descripcion.strip()
             anadirLineaCodigo(salida,modulonombre,"py")
-        if(loccodlin):
-            tag = re.split("#<<", linea)
-            descripcion=tag[0]
-            # escribimos el comentario quitando espacios en blanco
-            salida="`"+descripcion.strip()+"`"+saltolin+saltolin
-            anadirLinea(salida,modulonombre,"py")
 ################################################################################
-def anadirLinea(texto,modulonombre,tipo="c"):
+def anadirlinea(texto,modulonombre):
     #abre el fichero, si no existe lo crea y si existe escribe al final
     # importante encoding="cp1252" para escribir bien los acentos
     f=open(modulonombre+".md",'a',encoding="cp1252")
@@ -335,55 +337,30 @@ def borrarUltimaLinea():
 '''
 Ejemplos de uso:
     Argumento 1(tipo de lenguaje a documentar)
-        1- C,(o cualquier lenguaje que admita comentarios de línea del tipo //):
+        1- C,Java,Javascript o cualquier lenguaje que admita un comentario de línea del tipo //:
         2- Lenguaje C(modo especial):
             * Extensiones admitidas: .h, internamente carga el .c
         3- Lenguaje Python
 '''
 def main():
-    piepagina="*Documentado con code2markdown, https://github.com/diegostreetbob/code2markdown*"
-    sellotemporalobj=datetime.now()
-    sellotemporal="*Sello temporal:"+sellotemporalobj.strftime("%d-%b-%Y (%H:%M:%S.%f)")+"*"+saltolin
-    comando=sys.argv[1]
-    mod_nom=sys.argv[2]
-    ext=mod_nom.split(".")
-    #longitud de la extensión, js tiene longitud 2
-    lext=len(ext[1])
-    lext=lext+1 #añadimos el . a la longitud de extensión
-    modulonombre=mod_nom[:-lext]#Imagen.h -> Imagen
-    #Tratamiento C u otro con comentarios del typo //
-    if(comando=="1"):
-        print("Comienzo.....")
-        ficheroentradaoper=modulonombre+"."+ext[1]
-        cCrearDoc(modulonombre,1,"."+ext[1])
-        cBuscarOper(ficheroentradaoper,modulonombre)
-        anadirLinea(sellotemporal,modulonombre)
-        anadirLinea(piepagina,modulonombre)
-        print("Fin.....")
-    #Tratamiento C(modo especial)
-    elif(comando=="2" and mod_nom.endswith("h")):
-        print("Comienzo.....")
+    print("Comienzo.....")
+    mod_nom=sys.argv[1]
+    #Tratamiento de código C, enviamos por parámetro el .h pero se trata
+    #el punto .h y .c
+    if(mod_nom.endswith("h")):
         modulonombre=mod_nom[:-2]#Imagen.h -> Imagen
         ficheroentrada=modulonombre+".h"
         ficheroentradaoper=modulonombre+".c"
-        cCrearDoc(modulonombre,2)
+        cCrearDoc(modulonombre)
         headerBuscarEntidades(ficheroentrada,modulonombre)
         cBuscarOper(ficheroentradaoper,modulonombre)
-        anadirLinea(sellotemporal,modulonombre)
-        anadirLinea(piepagina,modulonombre)
-        print("Fin.....")
     #Tratamiento de código Python, enviamos por parámetro el. py pero se trata
-    elif(comando=="3" and mod_nom.endswith("y")):
-        print("Comienzo.....")
-        ficheroentradaoper=modulonombre+"."+ext[1]
-        cCrearDoc(modulonombre,1,"."+ext[1])
+    if(mod_nom.endswith("y")):
+        modulonombre=mod_nom[:-3]#Imagen.py -> Imagen
+        ficheroentradaoper=modulonombre+".py"
+        crearDoc(modulonombre)
         pyBuscarOper(ficheroentradaoper,modulonombre)
-        anadirLinea(sellotemporal,modulonombre)
-        anadirLinea(piepagina,modulonombre)
-        print("Fin.....")
-    elif(comando=="-h"):
-        print("Para ayuda visitar el repositorio en: https://github.com/diegostreetbob/code2markdown")
-    else: print("No ha seleccionado ninguna opción correcta")
+    print("Fin.....")
 ################################################################################
 if __name__ == '__main__':
     main()
