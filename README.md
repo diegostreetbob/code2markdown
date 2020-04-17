@@ -570,7 +570,7 @@ Si hay error enviamos excepción
 
 #### Ejemplo de uso
 
-Colocamos `code2markdown.py` en el mismo directorio donde este el archivo con el código, en este ejemplo he usado un archivo llamado `test.c` que se adjunta al proyecto, desde PowerShell se ha ejecutado así:
+Colocamos `code2markdown.py` en el mismo directorio donde este el archivo con el código, en este ejemplo he usado un archivo llamado `test.h` que se adjunta al proyecto, desde PowerShell se ha ejecutado así:
 
 ```bash
 \code2markdown> py -3 code2markdown.py 2 test.h 
