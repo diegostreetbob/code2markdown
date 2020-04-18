@@ -1,6 +1,6 @@
 # code2markdown
 
-Parser para proyectos desarrollados en `c` y `python` o cualquier lenguaje que utilice como inicio de comentarios `//` .
+Generador de documentación para proyectos desarrollados en `c` y `python` o cualquier lenguaje que utilice como inicio de comentarios `//` .
 
 Nos permite que el trabajo de documentación del código pase directamente a lenguaje de marcas, en este caso *Markdown*, en adelante **md**
 
