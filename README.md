@@ -6,9 +6,40 @@ Nos permite que el trabajo de documentación del código pase directamente a len
 
 Con las etiquetas de `code2markdown`podemos introducir cualquier sintaxis de **md** en los comentarios de nuestro código de modo que al ejecutar `code2markdown` tendremos un documento final en formato **md** , ampliamente usado en Github, entorno académico, blogs, etc....
 
+Pero mejor que veas estos resultados(**recomiendo que descargues el pdf**):
+
+* https://github.com/diegostreetbob/code2markdown/blob/master/src/docDeProyectoComando1.pdf
+* https://github.com/diegostreetbob/code2markdown/blob/master/src/docDeProyectoComando2(modo%20avanzado).pdf
+* https://github.com/diegostreetbob/code2markdown/blob/master/src/docDeProyectoComando3_Python.pdf
+
+Si te ha gustado es momento de continuar.
+
 Antes de nada es **necesario e imprescindible** tener algunos conceptos básicos de *Markdown*.
 
-Recomiendo usar Typora https://typora.io/ como entorno editor de **md** para dar el acabado final a nuestros documentos, e ir viendo como quedan, incluye hojas de estilos `css`totalmente personalizables, permite exportación a pdf, html, etc.
+> Recomiendo usar Typora https://typora.io/ como entorno editor de **md** para dar el acabado final a nuestros documentos, e ir viendo como quedan, incluye hojas de estilos `css`totalmente personalizables, permite exportación a pdf, html, etc.
+
+Instrucciones de manejo desde PowerShell:
+
+`py -3 code2markdown.py argumento1 argumento2`
+
+**Nota** `code2markdown.py` *ha de estar en el mismo directorio que  tu código*.
+
+**Manejo**
+
+   * Argumento 1(tipo de lenguaje a documentar)
+
+       * 1 para C,(o cualquier lenguaje que admita comentarios de línea del tipo //)
+         * Ejemplo de uso: `py -3 code2markdown.py 1 test.c`
+
+       * 2 para C(modo especial): Extensiones admitidas: .h, internamente carga el .c
+         * Ejemplo de uso: `py -3 code2markdown.py 2 test.h`
+
+       * 3 para Python
+         * Ejemplo de uso: `py -3 code2markdown.py 3 testpython.py`
+
+En el directorio de nuestro código fuente se generará un documento **md** por cada fichero parseado y otro documento **md** que agrupa todo en un mismo documento, llamado `docDeProyecto.md`
+
+
 
 # Uso para Python
 
