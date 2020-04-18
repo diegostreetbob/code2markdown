@@ -16,7 +16,7 @@ import re
 import ssl
 import traceback
 ################################################################################
-#>### main() del programa
+#>### main() del módulo 2
 def main():
     #>#### Creación del socket
 	#>Para la creación usamos estas tres líneas:

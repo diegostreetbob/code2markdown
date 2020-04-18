@@ -11,6 +11,7 @@
 import re #importamos módulo regex
 import sys
 from datetime import datetime
+import glob, os
 ################################################################################
 h1="#"
 h2="##"
@@ -332,6 +333,30 @@ def borrarUltimaLinea():
         fd.write(s[i])
     fd.close()
 ################################################################################
+def fusionar():
+    #Borramos el contenido del fichero previo si existe
+    try:
+        f=open("docDeProyecto.md",'w',encoding="cp1252")
+        f.write("\n")
+        f.close
+    except:
+        print("...")
+    #Recorremos todo el directorio buscando los .md excepto readme.md
+    docs = [f for f in glob.glob("*.md")]
+    #para cada documento
+    for doc in docs:
+        #guardamos todas las lineas en lineas
+        try:
+            f=open(doc,'r')
+            #guardamos el fichero en una lisa
+            lineas=f.readlines()
+            f.close
+        except:
+            print("Error al abrir fichero")
+        #por cada linea abrimos el documento final e insertamos dicha linea
+        for linea in lineas:
+            anadirLinea(linea,"docDeProyecto")
+################################################################################
 '''
 Ejemplos de uso:
     Argumento 1(tipo de lenguaje a documentar)
@@ -359,6 +384,9 @@ def main():
         cBuscarOper(ficheroentradaoper,modulonombre)
         anadirLinea(sellotemporal,modulonombre)
         anadirLinea(piepagina,modulonombre)
+        print("Fusionamos documentos")
+        #fusionamos todos los documentos
+        fusionar()
         print("Fin.....")
     #Tratamiento C(modo especial)
     elif(comando=="2" and mod_nom.endswith("h")):
@@ -371,6 +399,9 @@ def main():
         cBuscarOper(ficheroentradaoper,modulonombre)
         anadirLinea(sellotemporal,modulonombre)
         anadirLinea(piepagina,modulonombre)
+        print("Fusionamos documentos")
+        #fusionamos todos los documentos
+        fusionar()
         print("Fin.....")
     #Tratamiento de código Python, enviamos por parámetro el. py pero se trata
     elif(comando=="3" and mod_nom.endswith("y")):
@@ -380,10 +411,14 @@ def main():
         pyBuscarOper(ficheroentradaoper,modulonombre)
         anadirLinea(sellotemporal,modulonombre)
         anadirLinea(piepagina,modulonombre)
+        print("Fusionamos documentos")
+        #fusionamos todos los documentos
+        fusionar()
         print("Fin.....")
     elif(comando=="-h"):
         print("Para ayuda visitar el repositorio en: https://github.com/diegostreetbob/code2markdown")
     else: print("No ha seleccionado ninguna opción correcta")
+
 ################################################################################
 if __name__ == '__main__':
     main()

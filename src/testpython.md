@@ -1,6 +1,6 @@
 [TOC]
 ## Fuente: testpython.py
-### main() del programa
+### main() del módulo 1
 #### Creación del socket
 Para la creación usamos estas tres líneas:
 `serverSocket = socket(AF_INET, SOCK_STREAM)`
@@ -24,5 +24,5 @@ Al acabar siempre cerramos la conexión
 `serverSocket.close()`
 
 ***
-*Sello temporal:17-Apr-2020 (19:59:36.054203)*
+*Sello temporal:18-Apr-2020 (11:32:27.146790)*
 *Documentado con code2markdown, https://github.com/diegostreetbob/code2markdown*
